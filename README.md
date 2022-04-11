@@ -21,3 +21,21 @@ $ yarn serve
 
 - [使用文档](https://iczer.gitee.io/vue-antd-admin-docs)
 - [vue-antd-admin](https://github.com/iczer/vue-antd-admin)
+
+## 账户
+
+目前设置已有的管理员账户为：
+
+```
+'USER': admin
+'PASSWORD': 123456
+```
+
+也可以自行创建管理员账户：
+
+```
+python manage.py createsuperuser
+```
+
+
+
