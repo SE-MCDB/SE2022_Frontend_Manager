@@ -1,11 +1,16 @@
 <h1 align="center">SE2022 Frontend Manager</h1>
+
+<div align="center">waiting badge</div>
+
 ## Usage
 
 ### npm
+
 ```bash
 $ npm install
 $ npm run serve
 ```
+
 ### yarn
 ```bash
 $ yarn install
