@@ -28,7 +28,7 @@ $ yarn serve
 
 ```
 'USER': admin
-'PASSWORD': 123456
+'PASSWORD': se-mcdb-o2e
 ```
 
 也可以自行创建管理员账户：
