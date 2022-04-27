@@ -33,7 +33,7 @@ const options = {
                         icon: 'dashboard',
                     },
                     component: () => import('@/pages/dashboard/analysis'),BlankView,
-                    
+
 
                     // children: [
                     //     {
@@ -52,15 +52,15 @@ const options = {
                     //         component: () => import('@/pages/dashboard/analysis'),
                     //     },
                     //     {
-                        
+
                     //         path: 'newPage',
                     //         name: '新页面',
                     //         component: () => import('@/pages/newPage'),
                     //     },
-                        
+
                     // ]
                 },
-                
+
                 {
                     path: 'user',
                     name: '用户管理',
@@ -77,14 +77,20 @@ const options = {
                             name: '用户列表',
                             component: () => import('@/pages/form/advance/UserForm'),
                         },
-                        
+
+                        {
+                            path: 'ExpertCertificate',
+                            name: '专家认证申请',
+                            component: () => import('../pages/expert-certificate/ExpertList')
+                        },
+
                         // {
                         //     path: 'new',
                         //     name: '新增用户',
                         //     component: () => import('@/pages/form/basic'),
                         // },
-                        
-                        
+
+
                     ]
                 },
                 // {
@@ -103,7 +109,7 @@ const options = {
                 //             },
                 //             component: () => import('@/pages/list/QueryList'),
                 //         },
-                //         /* 
+                //         /*
                 //         {
                 //             path: 'primary',
                 //             name: '标准列表',
@@ -124,7 +130,7 @@ const options = {
                 //                     name: '文章',
                 //                     component: () => import('@/pages/list/search/ArticleList'),
                 //                 },
-                                
+
                 //                 {
                 //                     path: 'application',
                 //                     name: '应用',
@@ -155,7 +161,7 @@ const options = {
 
                 //     ]
                 // },
-                
+
                 {
                     path: 'interpretation',
                     name: '解读管理',

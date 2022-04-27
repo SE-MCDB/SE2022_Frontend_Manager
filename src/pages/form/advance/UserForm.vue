@@ -46,8 +46,8 @@
         </a-popconfirm>
       </template>
     </a-table>
-    
-    
+
+
   </a-card>
 </template>
 
@@ -232,7 +232,7 @@ export default {
       }
       // this.loadUser()
       // console.log(target.editable)
-      
+
     },
     cancel(key) {
       const newData = [...this.data];

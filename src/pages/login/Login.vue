@@ -117,7 +117,7 @@ export default {
           const password = this.form.getFieldValue("password");
           if(name=="SUPERMAN"){
             // login(name, password)
-            
+
             this.$message.error("账号或密码错误")
             // this.$router.push("");
             this.logging = false;
@@ -131,7 +131,7 @@ export default {
             // console.log(password);
           });
           }
-          
+
         }
       });
     },
@@ -139,7 +139,7 @@ export default {
       // console.log(res)
       const positions = [
         {
-          CN: "管理员 | PAP-WE-1-后台管理",
+          CN: "管理员 | O2E-TU-2-后台管理",
           HK: "Java工程師 | 螞蟻金服-計算服務事業群-微信平台部",
           US:
             "Java engineer | Ant financial - Computing services business group - WeChat platform division",

@@ -8,5 +8,6 @@ module.exports = {
   GOODS: `${BASE_URL}/goods`,
   GOODS_COLUMNS: `${BASE_URL}/columns`,
   PaperAll:`${BASE_URL}/Interpretation/getall`,
-  UserAll:`${BASE_URL}/user/all`
+  UserAll:`${BASE_URL}/user/all`,
+  ExpertAll:`${BASE_URL}/expert/getall`
 }
