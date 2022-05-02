@@ -36,6 +36,7 @@
       <a-Row>
         营业执照：<img :src="business_license">
       </a-Row>
+      <br />
       <a-Row>
         法人身份证：<img :src="legal_person_ID">
       </a-Row>

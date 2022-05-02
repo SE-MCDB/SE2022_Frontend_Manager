@@ -45,7 +45,7 @@
           <a-modal v-model="showDetail" title="" @ok="handleOk" width="750px">
             <EnterpriseCard v-if="showDetail" v-bind="post"></EnterpriseCard>
           </a-modal>
-          <a-list-item-meta :description="item.username">
+          <a-list-item-meta :description="item.create_time">
             <a slot="title" :href="item.href">{{ item.username }}</a>
             <a-avatar slot="avatar" :src="item.userpic" />
           </a-list-item-meta>
@@ -54,7 +54,7 @@
               class="textbreak"
               href="javascript:void(0)"
               @click="handleShow(item.id)"
-          >{{"个人信息简要"|ellipsis}}          </a>
+          >企业简介：{{item.profile|ellipsis}}          </a>
         </a-list-item>
       </a-list>
     </a-card>
@@ -124,7 +124,9 @@ export default {
             total_post: res.data[i].total_post,
             total_like: res.data[i].total_like,
             total_fan: res.data[i].total_fan,
-            type :res.data[i].type
+            type :res.data[i].type,
+            profile: res.data[i].profile,
+            create_time: "申请时间：" + res.data[i].create_time
           })
         }
         this.loading = false;
@@ -149,7 +151,7 @@ export default {
           register_capital: res.data.register_capital,
           field: res.data.field,
           business_license: BASE_URL_IP + '/api/' + res.data.business_license,
-          legal_person_ID: BASE_URL_IP + '/api/' + res.data.legal_person_ID
+          legal_person_ID: BASE_URL_IP + '/api/' + res.data.legal_person_ID,
         };
         this.showDetail = true;
         console.log(this.post);
