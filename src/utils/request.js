@@ -34,7 +34,8 @@ const METHOD = {
 async function request(url, method, params, config) {
   switch (method) {
     case METHOD.GET:
-      // console.log(axios.get(url, {params, ...config}))
+      console.log(axios.get(url, {params, ...config}));
+      console.log(url);
       return axios.get(url, {params, ...config})
     case METHOD.POST:
       return axios.post(url, params, config)
