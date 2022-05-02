@@ -43,7 +43,7 @@
             </a-row>
           </a-space>
           <a-modal v-model="showDetail" title="" @ok="handleOk" width="750px">
-            <ExpertCard v-if="showDetail" v-bind="post"></ExpertCard>
+            <EnterpriseCard v-if="showDetail" v-bind="post"></EnterpriseCard>
           </a-modal>
           <a-list-item-meta :description="item.create_time">
             <a slot="title" :href="item.href">{{ item.username }}</a>
@@ -54,7 +54,7 @@
               class="textbreak"
               href="javascript:void(0)"
               @click="handleShow(item.id)"
-          >个人信息简介：{{item.profile|ellipsis}}          </a>
+          >企业简介：{{item.profile|ellipsis}}          </a>
         </a-list-item>
       </a-list>
     </a-card>
@@ -62,14 +62,14 @@
 </template>
 
 <script>
-import {getExpertAll, getExpert, getScholarID, expertApply, expertRefuse} from "../../services/expert";
-import ExpertCard from "./ExpertCard";
+import {enterpriseApply, enterpriseRefuse, getEnterprise, getEnterpriseAll} from "../../services/enterprise";
 import {BASE_URL_IP} from "../../services/api"
+import EnterpriseCard from "./EnterpriseCard";
 
 
 export default {
-  name: "ExpertList",
-  components: {ExpertCard},
+  name: "EnterpriseList",
+  components: {EnterpriseCard},
   filters: {
     ellipsis (value) {
       if (!value) return ''
@@ -81,7 +81,6 @@ export default {
   },
   data() {
     return {
-      listData: [],
       loading: true,
       pageIndex: 1,
       data: [],
@@ -94,24 +93,24 @@ export default {
         },
         pageSize: 10,
       },
+      listData: [],
     }
   },
-
   mounted() {
     this.init();
   },
   inject:[
-      'reload'
+    'reload'
   ],
   methods: {
     init: async function() {
       this.loadPost();
     },
-
     loadPost: function () {
       this.loading = true;
-      getExpertAll().then((res) => {
+      getEnterpriseAll().then((res) => {
         console.log(res);
+        this.listData.length = 0;
         this.listData = [];
         for (let i = 0; i < res.data.length; i++) {
           this.listData.push({
@@ -132,20 +131,27 @@ export default {
         }
         this.loading = false;
         console.log(this.listData);
+        console.log(BASE_URL_IP);
       }).catch((error) => {
         console.log(error);
       });
     },
+    handleOk(e) {
+      this.showDetail = false;
+    },
     handleShow: function (id) {
-      getExpert(id, "get").then((res) => {
+      getEnterprise(id, "get").then((res) => {
         this.post = {
           name : res.data.name,
-          ID_num: res.data.ID_num,
-          organization: res.data.organization,
-          field: res.data.field,
-          self_profile: res.data.self_profile,
+          address: res.data.address,
+          website: res.data.website,
+          instruction: res.data.instruction,
           phone: res.data.phone,
-          ID_pic: BASE_URL_IP + '/api/' + res.data.ID_pic
+          legal_representative: res.data.legal_representative,
+          register_capital: res.data.register_capital,
+          field: res.data.field,
+          business_license: BASE_URL_IP + '/api/' + res.data.business_license,
+          legal_person_ID: BASE_URL_IP + '/api/' + res.data.legal_person_ID,
         };
         this.showDetail = true;
         console.log(this.post);
@@ -153,42 +159,21 @@ export default {
         console.log(error);
       })
     },
-    handleOk(e) {
-      this.showDetail = false;
-    },
-    handleApply: function (id) {
-      getExpert(id, "get").then((res) => {
-        let params;
-        if (res.data.paper) {
-          params = {
-            content: res.data.paper
-          }
-        } else {
-          params = {
-            content: res.data.patent
-          }
-        }
-        getScholarID("get", params).then((result) => {
-          console.log(result)
-          let applyParams = {
-            id: id,
-            scholarID: result.data.id,
-            url: result.data.url
-          }
-          expertApply(id, "get", applyParams).then((applyRes) => {
-            console.log(applyRes);
-            this.reload();
-          }).catch((error) => {console.log(error);this.reload();});
-        }).catch((error) => {console.log(error);this.reload();});
-      }).catch((error) => {console.log(error);this.reload();});
-    },
     handleRefuse: function (id) {
-      expertRefuse(id, "get").then((res) => {
+      enterpriseRefuse(id, "get").then((res) => {
         console.log(res);
         this.reload();
       }).catch((error) => {
         console.log(error);
-        console.log("拒绝！");
+        this.reload();
+      });
+    },
+    handleApply: function (id) {
+      enterpriseApply(id, "get").then((res) => {
+        console.log(res);
+        this.reload();
+      }).catch((error) => {
+        console.log(error);
         this.reload();
       });
     }

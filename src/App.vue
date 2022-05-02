@@ -1,6 +1,6 @@
 <template>
   <a-config-provider :locale="locale" :get-popup-container="popContainer">
-    <router-view/>
+    <router-view v-if="isShow"/>
   </a-config-provider>
 </template>
 
@@ -12,9 +12,15 @@ import {getI18nKey} from '@/utils/routerUtil'
 
 export default {
   name: 'App',
+  provide() {
+    return {
+      reload: this.reload
+    }
+  },
   data() {
     return {
-      locale: {}
+      locale: {},
+      isShow: true
     }
   },
   created () {
@@ -83,6 +89,12 @@ export default {
     },
     popContainer() {
       return document.getElementById("popContainer")
+    },
+    reload() {
+      this.isShow = false;
+      this.$nextTick(() => {
+        this.isShow = true;
+      })
     }
   }
 }

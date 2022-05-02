@@ -84,6 +84,11 @@ const options = {
                             component: () => import('../pages/expert-certificate/ExpertList')
                         },
 
+                        {
+                            path: 'EnterpriseCertificate',
+                            name: '企业认证申请',
+                            component: () => import('../pages/enterprise-certificate/EnterpriseList')
+                        }
                         // {
                         //     path: 'new',
                         //     name: '新增用户',
