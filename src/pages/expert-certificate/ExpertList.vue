@@ -168,18 +168,15 @@ export default {
             content: res.data.patent
           }
         }
-        getScholarID("get", params).then((result) => {
-          console.log(result)
           let applyParams = {
             id: id,
-            scholarID: result.data.id,
-            url: result.data.url
+            scholarID: '',
+            url: ''
           }
           expertApply(id, "get", applyParams).then((applyRes) => {
             console.log(applyRes);
             this.reload();
           }).catch((error) => {console.log(error);this.reload();});
-        }).catch((error) => {console.log(error);this.reload();});
       }).catch((error) => {console.log(error);this.reload();});
     },
     handleRefuse: function (id) {
