@@ -5,12 +5,12 @@ const BASE_URL = process.env.NODE_ENV === 'production' ? process.env.VUE_APP_API
 const BASE_URL_IP = 'http://122.9.14.73:8000'
 
 module.exports = {
-  LOGIN: `${BASE_URL}/token-auth`,
+  LOGIN: `${BASE_URL_IP}/api/token-auth`,
   ROUTES: `${BASE_URL}/routes`,
   GOODS: `${BASE_URL}/goods`,
   GOODS_COLUMNS: `${BASE_URL}/columns`,
-  PaperAll:`${BASE_URL}/Interpretation/getall`,
-  UserAll:`${BASE_URL}/user/all`,
+  PaperAll:`${BASE_URL_IP}/api/Interpretation/getall`,
+  UserAll:`${BASE_URL_IP}/api/user/all`,
   ExpertAll:`${BASE_URL_IP}/api/expert/getall`,
   EnterpriseAll: `${BASE_URL_IP}/api/enterprise/getall`,
   BASE_URL_IP: BASE_URL_IP

@@ -1,4 +1,4 @@
-import { GOODS, GOODS_COLUMNS, PaperAll,UserAll } from "./api";
+import { GOODS, GOODS_COLUMNS, PaperAll,UserAll, BASE_URL_IP} from "./api";
 import { METHOD, request } from "@/utils/request";
 
 export async function goodsList(params) {
@@ -11,34 +11,34 @@ export async function goodsColumns() {
 
 export const getkeywords = (params) => {
   const typeUrl = "Interpretation";
-  const url = `/api/${typeUrl}/getkeywords`;
+  const url = BASE_URL_IP + `/api/${typeUrl}/getkeywords`;
   return request(url, "get", params);
 };
 
 export const recommend = (params) => {
-  const url = "/api/recommend";
+  const url = BASE_URL_IP +  "/api/recommend";
   return request(url, "get", params);
 };
 
 export const getvis = (params) => {
   const typeUrl = "Interpretation";
-  const url = `/api/${typeUrl}/getvis`;
+  const url = BASE_URL_IP + `/api/${typeUrl}/getvis`;
   return request(url, "get", params);
 };
 
 export const gettags = (params) => {
   const typeUrl = "Interpretation";
-  const url = `/api/${typeUrl}/gettags`;
+  const url = BASE_URL_IP + `/api/${typeUrl}/gettags`;
   return request(url, "get", params);
 };
 
 export const getInterpretationComments = (method, params) => {
-  const url = "/api/comment";
+  const url = BASE_URL_IP + "/api/comment";
   return request(url, method, params);
 };
 
 export const getUserInfo = (id) => {
-  const url = "/api/user/profile";
+  const url = BASE_URL_IP + "/api/user/profile";
   if (id) {
     return request(url, "get", { user_id: id });
   } else {
@@ -48,7 +48,7 @@ export const getUserInfo = (id) => {
 
 export const InterpretationIdReq = (id, type, method, params) => {
   const typeUrl = type === 1 ? "Interpretation" : "Note";
-  const url = `/api/${typeUrl}/${id}`;
+  const url = BASE_URL_IP + `/api/${typeUrl}/${id}`;
   return request(url, method, params);
 };
 
@@ -76,37 +76,37 @@ export const getPaperAll = (id) => {
 };
 
 export const createProject = (params) => {
-  const url = `/api/project/create`
+  const url = BASE_URL_IP + `/api/project/create`
   return request(url, 'post', params)
 }
 
 export const modifyProject = (params) => {
-  const url = `/api/project/${params.id}`
+  const url = BASE_URL_IP + `/api/project/${params.id}`
   return request(url, 'post', params)
 }
 
 export const deleteProject = (params) => {
-  const url = `/api/project/${params.id}`
+  const url = BASE_URL_IP + `/api/project/${params.id}`
   return request(url, 'delete', params)
 }
 
 export const addComment = (method, params) => {
-  const url = '/api/comment/create'
+  const url = BASE_URL_IP + '/api/comment/create'
   return request(url, method, params)
 }
 
 export const deleteComment = (method, params) => {
-  const url = '/api/comment/delete'
+  const url = BASE_URL_IP + '/api/comment/delete'
   return request(url, method, params)
 }
 
 export const createDiscussionComment = (params) => {
-  const url = `/api/discussion/create`
+  const url = BASE_URL_IP + `/api/discussion/create`
   return request(url, 'post', params)
 }
 
 export const deleteDiscussionComment = (method, params) => {
-  const url = `/api/discussion/delete`
+  const url =BASE_URL_IP + `/api/discussion/delete`
   return request(url, method, params)
 }
 
@@ -119,12 +119,12 @@ export const getUserAll = (id) => {
 };
 
 export const UserDel = (params) => {
-  const url = `/api/user/delete`
+  const url = BASE_URL_IP + `/api/user/delete`
   return request(url,"post",params)
 }
 
 export const UserModify = (params) => {
-  const url = `/api/user/changeinfo`
+  const url = BASE_URL_IP + `/api/user/changeinfo`
   return request(url, "post",params)
 }
 

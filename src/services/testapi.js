@@ -2,7 +2,7 @@
 import { request, METHOD} from '@/utils/request'
  
 export const followerList = (id, params) => {
-  const url = `/api/follower/${id}`
+  const url = BASE_URL_IP + `/api/follower/${id}`
   return request(url, 'get', params)
 }
 

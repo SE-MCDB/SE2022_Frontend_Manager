@@ -1,6 +1,6 @@
 import {LOGIN, ROUTES} from '@/services/api'
 import {request, METHOD, removeAuthorization} from '@/utils/request'
-import {UserAll} from './api'
+import {UserAll, BASE_URL_IP} from './api'
 /**
  * 登录服务
  * @param name 账户名
@@ -37,7 +37,7 @@ export const getUserAll = (id) => {
 };
 
 export const register = (method, params) => {
-  const url = '/api/user/create'
+  const url = BASE_URL_IP + '/api/user/create'
   return request(url, method, params)
 }
 
