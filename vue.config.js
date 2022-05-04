@@ -38,7 +38,7 @@ module.exports = {
     proxy: {
       "/api": {
         // target:"http://127.0.0.1:8000",//"http://122.9.14.73:8000/",
-        target:"http://172.16.3.226:8000/",
+        target:"http://122.9.14.73:8000/",
         changeOrigin: true,
       },
       "/zhitu": {
