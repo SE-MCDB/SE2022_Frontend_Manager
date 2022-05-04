@@ -80,13 +80,13 @@ const options = {
 
                         {
                             path: 'ExpertCertificate',
-                            name: '专家认证申请',
+                            name: '专家认证审核',
                             component: () => import('../pages/expert-certificate/ExpertList')
                         },
 
                         {
                             path: 'EnterpriseCertificate',
-                            name: '企业认证申请',
+                            name: '企业认证审核',
                             component: () => import('../pages/enterprise-certificate/EnterpriseList')
                         }
                         // {
