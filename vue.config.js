@@ -41,13 +41,6 @@ module.exports = {
         target:"http://122.9.14.73:8000/",
         changeOrigin: true,
       },
-      "/zhitu": {
-        target: "https://zhitulist.com/zhitu-data-service/search/paper/like",
-        changeOrigin: true,
-        pathRewrite: {
-          '^/zhitu': ''
-        }
-      }
     },
     host: "0.0.0.0",
     port: 10516,

@@ -19,7 +19,7 @@
         <br />
         <a-Row>
           身份证照片：
-          <img :src="ID_pic"></img>
+          <img :src="ID_pic" width="600px"></img>
         </a-Row>
         <br />
         <a-Row>

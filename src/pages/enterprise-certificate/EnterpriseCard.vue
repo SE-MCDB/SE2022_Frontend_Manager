@@ -34,11 +34,11 @@
       </a-Row>
       <br />
       <a-Row>
-        营业执照：<img :src="business_license">
+        营业执照：<img :src="business_license" width="600px">
       </a-Row>
       <br />
       <a-Row>
-        法人身份证：<img :src="legal_person_ID">
+        法人身份证：<img :src="legal_person_ID" width="600px">
       </a-Row>
     </a-card>
   </div>
