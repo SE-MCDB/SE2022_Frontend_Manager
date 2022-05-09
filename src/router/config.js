@@ -199,6 +199,21 @@ const options = {
 
                     ]
                 },
+                {
+                    path: 'NeedOrder',
+                    name: "需求订单管理",
+                    meta: {
+                        icon: 'shopping-cart'
+                    },
+                    component: PageView,
+                    children: [
+                        {
+                            path: 'NeedForm',
+                            name: "需求订单列表",
+                            component: () => import('../pages/need-order/NeedForm')
+                        }
+                    ]
+                }
                 /*
                 {
                     path: 'result',
