@@ -60,7 +60,14 @@ const options = {
 
                     // ]
                 },
-
+				{
+				    path: 'order',
+				    name: '订单管理',
+					meta: {
+					    icon: 'table',
+					},
+				    component: () => import('@/pages/order-manage/order-manage'),
+				},
                 {
                     path: 'user',
                     name: '用户管理',

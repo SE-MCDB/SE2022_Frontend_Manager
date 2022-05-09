@@ -1,5 +1,5 @@
 import { request, METHOD } from "@/utils/request";
-import {PaperAll} from './api'
+import {PaperAll, BASE_URL_IP} from './api'
 
 export async function api_get_test(url) {
   return request(url, METHOD.GET);
@@ -15,7 +15,7 @@ export const getPaperAll = (id) => {
 
 export const InterpretationIdReq = (id, type, method, params) => {
   const typeUrl = type === 1 ? 'Interpretation' : 'Note'
-  const url = `/api/${typeUrl}/${id}`
+  const url = BASE_URL_IP + `/api/${typeUrl}/${id}`
   console.log(id,method)
   return request(url, method, params)
 }

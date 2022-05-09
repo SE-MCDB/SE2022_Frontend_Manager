@@ -1,8 +1,16 @@
 <h1 align="center">SE2022 Frontend Manager</h1>
 
-<div align="center">waiting badge</div>
+<div align="center">
 
-## Usage
+[![](https://img.shields.io/badge/frontend-Vue.js-7B8ED0)](https://vuejs.org/) [![](https://img.shields.io/badge/UI-Vue%20Antd%20Admin-5DA1F8)](https://github.com/iczer/vue-antd-admin) [![](https://img.shields.io/badge/license-MIT-9cf)](./LICENSE)
+</div>
+
+
+## Description
+
+This is a Manager Frontend code of the `PaperDaily` project based on [`Vue.js`](https://vuejs.org) & [`Vue Antd Admin`](https://github.com/iczer/vue-antd-admin).
+
+## QuickStart
 
 ### npm
 
@@ -11,18 +19,18 @@ $ npm install
 $ npm run serve
 ```
 
+```
+$ npm run build
+```
+
 ### yarn
+
 ```bash
 $ yarn install
 $ yarn serve
 ```
 
-## Reference
-
-- [使用文档](https://iczer.gitee.io/vue-antd-admin-docs)
-- [vue-antd-admin](https://github.com/iczer/vue-antd-admin)
-
-## 账户
+## Account
 
 目前设置已有的管理员账户为：
 
@@ -37,5 +45,13 @@ $ yarn serve
 python manage.py createsuperuser
 ```
 
+## Reference
+
+- [使用文档](https://iczer.gitee.io/vue-antd-admin-docs)
+- [vue-antd-admin](https://github.com/iczer/vue-antd-admin)
+
+## License
+
+[MIT](./LICENSE)
 
 
