@@ -1,6 +1,25 @@
 <template>
   <a-card :bordered="false">
-    <a-table :data-source="data" :columns="columns">
+    <h2>选择用户类型</h2>
+    <a-space>
+      <a-select
+          ref="select"
+          v-model:value="selectedType"
+          style="width: 120px"
+          @change="selectChange"
+      >
+        <a-select-option value="0">普通用户</a-select-option>
+        <a-select-option value="1">专家认证中</a-select-option>
+        <a-select-option value="2">企业认证中</a-select-option>
+        <a-select-option value="3">封禁中</a-select-option>
+        <a-select-option value="4">认证专家</a-select-option>
+        <a-select-option value="5">认证企业</a-select-option>
+        <a-select-option value="6">全部</a-select-option>
+      </a-select>
+    </a-space>
+    <br/>
+    <br/>
+    <a-table :data-source="data" :columns="columns" :pagination="pagination" :key="itemKey">
       <template
         v-for="col in ['name', 'ins', 'email', 'type']"
         :slot="col"
@@ -52,7 +71,7 @@
 </template>
 
 <script>
-import { getUserAll,UserDel,UserModify } from "@/services/dataSource";
+import { getUserAll,UserDel,UserModify, getSelectUser} from "../../../services/dataSource";
 const columns = [
   {
     title: "用户名",
@@ -77,6 +96,7 @@ const columns = [
     dataIndex: "type",
     width: "15%",
     scopedSlots: { customRender: "type" },
+    // onFilter: (value, record) => record.type.indexOf(value) === 0,
   },
   {
     title: "操作",
@@ -84,9 +104,7 @@ const columns = [
     scopedSlots: { customRender: "operation" },
   },
 ];
-
 const data = [];
-
 
 export default {
   name: "UserForm",
@@ -99,6 +117,49 @@ export default {
       data,
       columns,
       editingKey: "",
+      selectedType: "全部",
+      pagination: {
+        current: 1,
+        onChange: (page) => {
+          console.log(page);
+          console.log(this.selectedType);
+          getSelectUser(this.selectedType === "全部" ? 6 : this.selectedType, page).then((oriRes) => {
+            console.log(oriRes);
+            let res = oriRes.data;
+            data.length = 0;
+            for (let i = 0; i < res.data.length; i++) {
+              if (res.data[i].type==0) {
+                this.type="普通用户"
+              } else if (res.data[i].type==1){
+                this.type="专家认证中"
+              } else if (res.data[i].type==2){
+                this.type="企业认证中"
+              }else if (res.data[i].type==3){
+                this.type="封禁中"
+              }else if (res.data[i].type==4){
+                this.type="认证专家"
+              }else if (res.data[i].type==5){
+                this.type="认证企业"
+              }
+              data.push({
+                key: res.data[i].id,
+                name: res.data[i].username,
+                ins: res.data[i].institution,
+                type: this.type,
+                email: res.data[i].email,
+              });
+            }
+            this.totalCnt = res.data.total_count;
+            this.loading = false;
+            this.itemKey = Math.random();
+            this.pagination.current = page;
+          }).catch((error) => {
+            console.log(error);
+          });
+        },
+        total: 10
+      },
+      itemKey: "",
     };
   },
   // computed: {
@@ -121,31 +182,78 @@ export default {
     loadUser: function() {
       this.loading = true;
       data.length=0;
-      getUserAll()
-        .then((res) => {
-          console.log(res);
-          for (let i = 0; i < res.data.length; i++) {
-            if(res.data[i].usertype==0){
-              this.type="个人"
-            }else if(res.data[i].usertype==1){
-              this.type="学校"
-            }else{
-              this.type="公司"
-            }
-            data.push({
-              key: res.data[i].id,
-              name: res.data[i].username,
-              ins: res.data[i].institution,
-              type: this.type,
-              email: res.data[i].email,
-            });
+      // getUserAll()
+      //   .then((res) => {
+      //     console.log(res);
+      //     for (let i = 0; i < res.data.length; i++) {
+      //       // if(res.data[i].usertype==0){
+      //       //   this.type="个人"
+      //       // }else if(res.data[i].usertype==1){
+      //       //   this.type="学校"
+      //       // }else{
+      //       //   this.type="公司"
+      //       // }
+      //       if (res.data[i].type==0) {
+      //         this.type="普通用户"
+      //       } else if (res.data[i].type==1){
+      //         this.type="专家认证中"
+      //       } else if (res.data[i].type==2){
+      //         this.type="企业认证中"
+      //       }else if (res.data[i].type==3){
+      //         this.type="封禁中"
+      //       }else if (res.data[i].type==4){
+      //         this.type="认证专家"
+      //       }else if (res.data[i].type==5){
+      //         this.type="认证企业"
+      //       }
+      //       data.push({
+      //         key: res.data[i].id,
+      //         name: res.data[i].username,
+      //         ins: res.data[i].institution,
+      //         type: this.type,
+      //         email: res.data[i].email,
+      //       });
+      //     }
+      //     this.totalCnt = res.data.total_count;
+      //     this.loading = false;
+      //   })
+      //   .catch((error) => {
+      //     console.log(error);
+      //   });
+      this.pagination.current = 1;
+      getSelectUser(6, 1).then((oriRes) => {
+        console.log(oriRes);
+        let res = oriRes.data
+        console.log(res);
+        data.length = 0;
+        for (let i = 0; i < res.data.length; i++) {
+          if (res.data[i].type==0) {
+            this.type="普通用户"
+          } else if (res.data[i].type==1){
+            this.type="专家认证中"
+          } else if (res.data[i].type==2){
+            this.type="企业认证中"
+          }else if (res.data[i].type==3){
+            this.type="封禁中"
+          }else if (res.data[i].type==4){
+            this.type="认证专家"
+          }else if (res.data[i].type==5){
+            this.type="认证企业"
           }
-          this.totalCnt = res.data.total_count;
-          this.loading = false;
-        })
-        .catch((error) => {
-          console.log(error);
-        });
+          data.push({
+            key: res.data[i].id,
+            name: res.data[i].username,
+            ins: res.data[i].institution,
+            type: this.type,
+            email: res.data[i].email,
+          });
+        }
+        this.totalCnt = res.data.total_count;
+        this.loading = false;
+        this.pagination.total = res.page_num;
+      }).catch((error) => {
+        console.log(error);
+      });
     },
     onDelete(key) {
       const newData = [...this.data];
@@ -247,6 +355,46 @@ export default {
         this.data = newData;
       }
     },
+    selectChange(value) {
+      console.log(value);
+      console.log(this.selectedType);
+      this.pagination.current = 1;
+      getSelectUser(this.selectedType, 1).then((oriRes) => {
+        console.log(oriRes);
+        let res = oriRes.data
+        console.log(res);
+        data.length = 0;
+        console.log(data);
+        for (let i = 0; i < res.data.length; i++) {
+          if (res.data[i].type==0) {
+            this.type="普通用户"
+          } else if (res.data[i].type==1){
+            this.type="专家认证中"
+          } else if (res.data[i].type==2){
+            this.type="企业认证中"
+          }else if (res.data[i].type==3){
+            this.type="封禁中"
+          }else if (res.data[i].type==4){
+            this.type="认证专家"
+          }else if (res.data[i].type==5){
+            this.type="认证企业"
+          }
+          data.push({
+            key: res.data[i].id,
+            name: res.data[i].username,
+            ins: res.data[i].institution,
+            type: this.type,
+            email: res.data[i].email,
+          });
+        }
+        this.totalCnt = res.data.total_count;
+        this.loading = false;
+        this.pagination.total = res.page_num;
+        this.itemKey = Math.random();
+      }).catch((error) => {
+        console.log(error);
+      });
+    }
   },
 };
 </script>

@@ -118,6 +118,11 @@ export const getUserAll = (id) => {
   }
 };
 
+export const getSelectUser = (type, page) => {
+  const url = BASE_URL_IP + `/api/user/${type}/all/${page}`
+  return request(url, "get");
+}
+
 export const UserDel = (params) => {
   const url = BASE_URL_IP + `/api/user/delete`
   return request(url,"post",params)

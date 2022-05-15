@@ -60,14 +60,14 @@ const options = {
 
                     // ]
                 },
-				{
-				    path: 'order',
-				    name: '订单管理',
-					meta: {
-					    icon: 'table',
-					},
-				    component: () => import('@/pages/order-manage/order-manage'),
-				},
+				// {
+				//     path: 'order',
+				//     name: '订单管理',
+				// 	meta: {
+				// 	    icon: 'table',
+				// 	},
+				//     component: () => import('@/pages/order-manage/order-manage'),
+				// },
                 {
                     path: 'user',
                     name: '用户管理',
@@ -220,7 +220,7 @@ const options = {
                             component: () => import('../pages/need-order/NeedForm')
                         }
                     ]
-                }
+                },
                 /*
                 {
                     path: 'result',
@@ -321,6 +321,21 @@ const options = {
                         link: 'https://iczer.gitee.io/vue-antd-admin-docs/'
                     }
                 }*/
+                {
+                    path: 'feedback',
+                    name: '用户反馈',
+                    meta: {
+                        icon: 'table',
+                    },
+                    component: PageView,
+                    children: [
+                        {
+                            path: 'FeedbackList',
+                            name: '用户反馈列表',
+                            component: () => import('../pages/feedback/feedbackList')
+                        }
+                    ]
+                },
             ]
         },
     ]

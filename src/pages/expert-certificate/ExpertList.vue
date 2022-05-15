@@ -1,64 +1,64 @@
 <template>
   <div>
-    <a-card :bordered="false">
-      <a-list item-layout="vertical" size="large" :pagination="pagination" :data-source="listData">
-        <a-list-item slot="renderItem" key="item.title" slot-scope="item">
-          <a-space direction="vertical" slot="extra" width="272" align="end" style="margin-right:20px;">
-            <a-row>
-              <a-col :span="24">
-                <a-button
-                    type="text"
-                    style="width: 80px"
-                    @click="handleShow(item.id)"
-                >
-                  查看
-                </a-button>
-              </a-col>
-            </a-row>
+  <a-card :bordered="false">
+    <a-list item-layout="vertical" size="large" :pagination="pagination" :data-source="listData">
+      <a-list-item slot="renderItem" key="item.title" slot-scope="item">
+        <a-space direction="vertical" slot="extra" width="272" align="end" style="margin-right:20px;">
+          <a-row>
+            <a-col :span="24">
+              <a-button
+                  type="text"
+                  style="width: 80px"
+                  @click="handleShow(item.id)"
+              >
+                查看
+              </a-button>
+            </a-col>
+          </a-row>
 
-            <a-row>
-              <a-col :span="24">
-                <a-popconfirm
-                    title="确定通过认证吗？"
-                    ok-text="确定"
-                    cancel-text="取消"
-                    @confirm="handleApply(item.id)"
-                >
-                  <a-button type="primary" style="width: 80px"> 通过</a-button>
-                </a-popconfirm>
-              </a-col>
-            </a-row>
+          <a-row>
+            <a-col :span="24">
+              <a-popconfirm
+                  title="确定通过认证吗？"
+                  ok-text="确定"
+                  cancel-text="取消"
+                  @confirm="handleApply(item.id)"
+              >
+                <a-button type="primary" style="width: 80px"> 通过</a-button>
+              </a-popconfirm>
+            </a-col>
+          </a-row>
 
-            <a-row>
-              <a-col :span="24">
-                <a-popconfirm
-                    title="确定要拒绝认证吗？"
-                    ok-text="确定"
-                    cancel-text="取消"
-                    @confirm="handleRefuse(item.id)"
-                >
-                  <a-button type="danger" style="width: 80px"> 拒绝</a-button>
-                </a-popconfirm>
-              </a-col>
-            </a-row>
-          </a-space>
-          <a-modal v-model="showDetail" title="" @ok="handleOk" width="750px">
-            <ExpertCard v-if="showDetail" v-bind="post"></ExpertCard>
-          </a-modal>
-          <a-list-item-meta :description="item.create_time">
-            <a slot="title" :href="item.href">{{ item.username }}</a>
-            <a-avatar slot="avatar" :src="item.userpic" />
-          </a-list-item-meta>
-          <a
-              style="display:block"
-              class="textbreak"
-              href="javascript:void(0)"
-              @click="handleShow(item.id)"
-          >个人信息简介：{{item.profile|ellipsis}}          </a>
-        </a-list-item>
-      </a-list>
-    </a-card>
-  </div>
+          <a-row>
+            <a-col :span="24">
+              <a-popconfirm
+                  title="确定要拒绝认证吗？"
+                  ok-text="确定"
+                  cancel-text="取消"
+                  @confirm="handleRefuse(item.id)"
+              >
+                <a-button type="danger" style="width: 80px"> 拒绝</a-button>
+              </a-popconfirm>
+            </a-col>
+          </a-row>
+        </a-space>
+        <a-modal v-model="showDetail" title="" @ok="handleOk" width="750px">
+          <ExpertCard v-if="showDetail" v-bind="post"></ExpertCard>
+        </a-modal>
+        <a-list-item-meta :description="item.create_time">
+          <a slot="title" :href="item.href">{{ item.username }}</a>
+          <a-avatar slot="avatar" :src="item.userpic" />
+        </a-list-item-meta>
+        <a
+            style="display:block"
+            class="textbreak"
+            href="javascript:void(0)"
+            @click="handleShow(item.id)"
+        >个人信息简介：{{item.profile|ellipsis}}          </a>
+      </a-list-item>
+    </a-list>
+  </a-card>
+</div>
 </template>
 
 <script>

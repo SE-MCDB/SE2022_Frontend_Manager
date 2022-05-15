@@ -1,6 +1,10 @@
 <template>
   <a-card :bordered="false">
-    <a-table :data-source="data" :columns="columns" :showExpandColumn="true">
+    <a-table :data-source="data" :columns="columns" :showExpandColumn="true" :pagination="pagination">
+      <template
+          #customFilterDropdown="{ setSelectedKeys, selectedKeys, confirm, clearFilters, column }"
+      >
+      </template>
       <template #expandedRowRender="record,index" class="ant-table-thead">
         <ChildForm :OrderColumns="OrderColumns" :OrderData="OrderData[index] "></ChildForm>
       </template>
@@ -23,6 +27,10 @@ const columns = [
     dataIndex: "enterprise_name",
     scopedSlots: { customRender: "enterprise_name" },
     width: 150,
+    customFilterDropdown: true,
+    onFilter: (value, record) =>
+        record.enterprise_name.toString().toLowerCase().includes(value.toLowerCase()),
+
   },
   {
     title: "需求名称",
