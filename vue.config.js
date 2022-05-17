@@ -22,14 +22,14 @@ const assetsCDN = {
   },
   css: [],
   js: [
-    "//cdn.jsdelivr.net/npm/vue@2.6.11/dist/vue.min.js",
-    "//cdn.jsdelivr.net/npm/vue-router@3.3.4/dist/vue-router.min.js",
-    "//cdn.jsdelivr.net/npm/vuex@3.4.0/dist/vuex.min.js",
-    "//cdn.jsdelivr.net/npm/axios@0.19.2/dist/axios.min.js",
-    "//cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js",
-    "//cdn.jsdelivr.net/npm/clipboard@2.0.6/dist/clipboard.min.js",
-    "//cdn.jsdelivr.net/npm/@antv/data-set@0.11.4/build/data-set.min.js",
-    "//cdn.jsdelivr.net/npm/js-cookie@2.2.1/src/js.cookie.min.js",
+    "//cdnjs.cloudflare.com/ajax/libs/vue/2.6.11/vue.min.js",
+    "//cdnjs.cloudflare.com/ajax/libs/vue-router/3.4.0/vue-router.min.js",
+    "//cdnjs.cloudflare.com/ajax/libs/vuex/3.5.1/vuex.min.js",
+    "//cdnjs.cloudflare.com/ajax/libs/axios/0.19.2/axios.min.js",
+    "//cdnjs.cloudflare.com/ajax/libs/nprogress/0.2.0/nprogress.min.js",
+    "//cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js",
+    "//gw.alipayobjects.com/os/antv/pkg/_antv.data-set-0.11.1/dist/data-set.js",
+    "//cdnjs.cloudflare.com/ajax/libs/js-cookie/2.2.1/js.cookie.min.js",
   ],
 };
 
