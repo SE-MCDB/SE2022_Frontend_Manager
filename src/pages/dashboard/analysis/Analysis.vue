@@ -211,7 +211,7 @@ export default {
       }
     });
     getvis().then((res) => {
-      this.visit = res.data.totcount+163;
+      this.visit = res.data.totcount;
     });
     getPaperAll().then((res) => {
       this.paper = res.data.length;

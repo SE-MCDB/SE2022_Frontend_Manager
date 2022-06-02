@@ -35,11 +35,11 @@ data.push({
 });
 data.push({
   x: "4月",
-  y: 239,
+  y: 130,
 });
 data.push({
   x: "5月",
-  y: 530,
+  y: 239,
 });
 // for (let i = 6; i <= 12; i += 1) {
 //   data.push({
@@ -84,7 +84,7 @@ export default {
 
       data.push({
         x: '6月',
-        y: res.data.totcount-774,
+        y: res.data.totcount-537 < 0 ? 10 : res.data.totcount-537,
       });
     });
   },
