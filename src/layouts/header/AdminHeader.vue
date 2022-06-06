@@ -13,7 +13,7 @@
       <div :class="['admin-header-right', headerTheme]">
           
           <a-tooltip class="header-item" title="帮助文档" placement="bottom" >
-            <a href="https://github.com/lzy-a/PAP-WE-1-Admin/blob/main/README.md" target="_blank">
+            <a href="https://github.com/se-mcdb" target="_blank">
               <a-icon type="question-circle-o" />
             </a>
           </a-tooltip>

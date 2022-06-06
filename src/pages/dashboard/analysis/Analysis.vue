@@ -11,7 +11,7 @@
     <template slot="extra">
       <head-info class="split-right" title="用户数量" :content="user" />
       <head-info class="split-right" title="解读数量" :content="paper" />
-      <head-info class="split-right" title="访问量" :content="visit" />
+      <head-info class="split-right" title="解读访问量" :content="visit" />
     </template>
     <div :class="['analysis', layout, pageWidth]">
       <!--
@@ -170,7 +170,7 @@ export default {
   i18n: require("./i18n"),
   data() {
     return {
-      user: "20",
+      user: "597",
       visit: "300",
       paper: "20",
       rankList,
@@ -211,13 +211,13 @@ export default {
       }
     });
     getvis().then((res) => {
-      this.visit = res.data.totcount+163;
+      this.visit = res.data.totcount;
     });
     getPaperAll().then((res) => {
       this.paper = res.data.length;
     });
     getUserAll().then((res) => {
-      this.user = res.data.length;
+      this.user = res.data.count;
     });
   },
   components: { SalesData, HotSearch, RankingList, Bar, PageLayout, HeadInfo },
