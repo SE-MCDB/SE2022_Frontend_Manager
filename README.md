@@ -10,7 +10,7 @@
 
 This is a Manager Frontend code of the `PaperDaily` project based on [`Vue.js`](https://vuejs.org) & [`Vue Antd Admin`](https://github.com/iczer/vue-antd-admin).
 
-## QuickStart
+## Quick Start
 
 ### npm
 
