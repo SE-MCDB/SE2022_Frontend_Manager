@@ -8,7 +8,7 @@
 
 ## Description
 
-This is a Manager Frontend code of the `PaperDaily` project based on [`Vue.js`](https://vuejs.org) & [`Vue Antd Admin`](https://github.com/iczer/vue-antd-admin).
+This is the Manager Frontend code of the `PaperDaily` project based on [`Vue.js`](https://vuejs.org) & [`Vue Antd Admin`](https://github.com/iczer/vue-antd-admin).
 
 ## Quick Start
 
@@ -37,12 +37,6 @@ $ yarn serve
 ```
 'USER': admin
 'PASSWORD': se-mcdb-o2e
-```
-
-也可以自行创建管理员账户：
-
-```
-python manage.py createsuperuser
 ```
 
 ## Reference
