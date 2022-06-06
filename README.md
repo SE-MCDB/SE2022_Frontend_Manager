@@ -8,7 +8,7 @@
 
 ## Description
 
-This is the Manager Frontend code of the `PaperDaily` project based on [`Vue.js`](https://vuejs.org) & [`Vue Antd Admin`](https://github.com/iczer/vue-antd-admin).
+This is the manager frontend code of the `PaperDaily` project based on [`Vue.js`](https://vuejs.org) & [`Vue Antd Admin`](https://github.com/iczer/vue-antd-admin).
 
 ## Quick Start
 
@@ -19,7 +19,7 @@ $ npm install
 $ npm run serve
 ```
 
-```
+```bash
 $ npm run build
 ```
 
@@ -28,6 +28,10 @@ $ npm run build
 ```bash
 $ yarn install
 $ yarn serve
+```
+
+```bash
+$ yarn build
 ```
 
 ## Account
