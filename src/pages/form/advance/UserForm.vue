@@ -317,7 +317,7 @@ export default {
       const params = {
         id:target.key,
         name: target.name,
-        usertype: this.type1,
+        // usertype: this.type1,
         institution:target.ins,
         mail: target.email,
       };
