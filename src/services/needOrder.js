@@ -10,3 +10,13 @@ export const getOrder = (id, method) => {
     const url = `${BASE_URL_IP}/api/order/byneed/${id}`
     return request(url, method);
 }
+
+export const deleteNeed = (id, method) => {
+    const url = `${BASE_URL_IP}/need/${id}/delete`
+    return request(url, method)
+}
+
+export const deleteOrder = (id, method) => {
+    const url = `${BASE_URL_IP}/admin/order/${id}`
+    return request(url, method)
+}

@@ -1,9 +1,20 @@
 <template>
   <a-card :bordered="false">
-    <a-table :data-source="data" :columns="columns" :showExpandColumn="true" :pagination="pagination">
+    <a-table :data-source="data" :columns="columns" :showExpandColumn="true">
       <template
           #customFilterDropdown="{ setSelectedKeys, selectedKeys, confirm, clearFilters, column }"
       >
+      </template>
+      <template slot="operation" slot-scope="text, record">
+        <div>
+          <a-popconfirm
+              v-if="data.length"
+              title="Sure to delete?"
+              @confirm="() => onDeleteNeed(record.need_id)"
+          >
+            <a href="javascript:0;">Delete</a>
+          </a-popconfirm>
+        </div>
       </template>
       <template #expandedRowRender="record,index" class="ant-table-thead">
         <ChildForm :OrderColumns="OrderColumns" :OrderData="OrderData[index] "></ChildForm>
@@ -13,7 +24,7 @@
 </template>
 
 <script>
-import {getNeedAll, getOrder} from "../../services/needOrder";
+import {getNeedAll, getOrder, deleteOrder, deleteNeed} from "../../services/needOrder";
 import ChildForm from "./ChildForm";
 const columns = [
   {
@@ -90,7 +101,8 @@ const OrderColumns =  [
     title: '操作',
     dataIndex: 'operation',
     key: 'operation',
-    width: 80
+    width: 80,
+    scopedSlots: { customRender: "operation" },
   },
 ];
 
@@ -162,7 +174,15 @@ export default {
     rowClassName(record, index) {
       console.log("!!!!!!!!!!!!")
       return "test";
-    }
+    },
+    onDeleteNeed(id) {
+      deleteOrder(id, 'get').then((res) => {
+        console.log(res)
+      }).catch((error) => {
+        console.log(error);
+      })
+    },
+
   },
 };
 </script>

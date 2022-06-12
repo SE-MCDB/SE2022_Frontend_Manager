@@ -1,17 +1,58 @@
 <template>
   <a-card :bordered="false">
     <a-table :data-source="data" :columns="columns">
+      <template slot="operation" slot-scope="text, record">
+        <div>
+          <span>
+            <a @click="checkFeedback(record)" v-if="record.flag==0">反馈</a>
+            <a @click="checkFeedback(record)" v-else>再次反馈</a>
+            <a-modal v-model="showDetail" title="回复反馈" @ok="handleOk(record)" width="750px">
+<!--              <feedback-card v-if="showDetail" v-bind="post"></feedback-card>-->
+              <a-card :bordered="false" dis-hover>
+                <a-row>姓名：{{record.name}}</a-row>
+                <br/>
+                <a-row>性别：{{record.sex}}</a-row>
+                <br/>
+                <a-row>邮箱：{{record.email}}</a-row>
+                <br/>
+                <a-row>问题类型：{{record.qtype}}</a-row>
+                <br/>
+                <a-row>发布时间：{{record.datatime}}</a-row>
+                <br/>
+                <a-row>回答：</a-row>
+                <br/>
+                <a-textarea v-model="reply"></a-textarea>
+              </a-card>
+            </a-modal>
+          </span>
+        </div>
+      </template>
       <template #expandedRowRender="record,index" class="ant-table-thead">
         <p style="margin: 0">
           {{ record.description }}
         </p>
+        <br/>
+        <div  v-if="record.flag">
+          <p style="margin: 0">
+            回复：
+          </p>
+          <br/>
+          <p style="margin: 0">
+            {{ record.message }}
+          </p>
+        </div>
+        <div v-else>
+          <p style="margin: 0">
+            暂未回复
+          </p>
+        </div>
       </template>
     </a-table>
   </a-card>
 </template>
 
 <script>
-import {getFeedbackAll} from "../../services/feedback";
+import {getFeedbackAll, replyFeedback} from "../../services/feedback";
 
 const columns = [
   {
@@ -45,16 +86,31 @@ const columns = [
     scopedSlots: { customRender: "datatime" },
     width: 150
   },
+  {
+    title: "回复状态",
+    dataIndex: "state",
+    scopedSlots: { customRender: "state" },
+    width: 150
+  },
+  {
+    title: "操作",
+    dataIndex: "operation",
+    scopedSlots: { customRender: "operation" },
+    width: 150,
+    render: () => <a>反馈</a>,
+  }
 ];
 const data = [];
 
 export default {
   name: "feedbackList",
+  components: {},
   data() {
     return {
       data,
       columns,
-
+      showDetail: false,
+      reply: '',
     }
   },
   mounted() {
@@ -72,19 +128,54 @@ export default {
         let d = res.data.data;
         console.log(d);
         for (let i = 0; i < d.length; i++) {
+          let str = d[i].qtype[0];
+          for (let j = 1; j < d[i].qtype.length; i++) {
+            str = str + ', ' + d[i].qtype[j];
+          }
+          let s = '';
+          if (d[i].flag == 1) {
+            s = '已回复'
+          } else {
+            s = '未回复'
+          }
           data.push({
+            feedback_id: d[i].feedback_id,
+            user_id: d[i].user_id,
             name: d[i].name,
             email: d[i].email,
             sex: d[i].sex,
-            qtype: d[i].qtype,
+            qtype: str,
             description: d[i].description,
-            datatime: d[i].datatime
+            datatime: d[i].datatime,
+            flag: d[i].flag,
+            message: d[i].message,
+            state: s
           })
         }
       }).catch((error) => {
         console.log(error);
       })
     },
+    handleOk(record) {
+      this.showDetail = false;
+      let params = {
+        feedback_id: record.feedback_id,
+        message: this.reply
+      }
+      console.log(params)
+      replyFeedback(params, 'post').then((res) => {
+        console.log("答复成功！")
+      }).catch((error) => {
+        console.log(error)
+      })
+    },
+    checkFeedback(record) {
+      this.showDetail = true;
+      this.post = record;
+    },
+    modalOK() {
+
+    }
   }
 }
 </script>

@@ -147,12 +147,17 @@ export default {
                 ins: res.data[i].institution,
                 type: this.type,
                 email: res.data[i].email,
+                editable: false
               });
             }
+
             this.totalCnt = res.data.total_count;
             this.loading = false;
-            this.itemKey = Math.random();
+            // this.itemKey = Math.random();
             this.pagination.current = page;
+            console.log(data);
+            console.log(this.pagination.current)
+            console.log("push over!")
           }).catch((error) => {
             console.log(error);
           });
@@ -182,46 +187,16 @@ export default {
     loadUser: function() {
       this.loading = true;
       data.length=0;
-      // getUserAll()
-      //   .then((res) => {
-      //     console.log(res);
-      //     for (let i = 0; i < res.data.length; i++) {
-      //       // if(res.data[i].usertype==0){
-      //       //   this.type="个人"
-      //       // }else if(res.data[i].usertype==1){
-      //       //   this.type="学校"
-      //       // }else{
-      //       //   this.type="公司"
-      //       // }
-      //       if (res.data[i].type==0) {
-      //         this.type="普通用户"
-      //       } else if (res.data[i].type==1){
-      //         this.type="专家认证中"
-      //       } else if (res.data[i].type==2){
-      //         this.type="企业认证中"
-      //       }else if (res.data[i].type==3){
-      //         this.type="封禁中"
-      //       }else if (res.data[i].type==4){
-      //         this.type="认证专家"
-      //       }else if (res.data[i].type==5){
-      //         this.type="认证企业"
-      //       }
-      //       data.push({
-      //         key: res.data[i].id,
-      //         name: res.data[i].username,
-      //         ins: res.data[i].institution,
-      //         type: this.type,
-      //         email: res.data[i].email,
-      //       });
-      //     }
-      //     this.totalCnt = res.data.total_count;
-      //     this.loading = false;
-      //   })
-      //   .catch((error) => {
-      //     console.log(error);
-      //   });
       this.pagination.current = 1;
       getSelectUser(6, 1).then((oriRes) => {
+        // const target = data.filter((item) => key === item.key)[0];
+        // this.editingKey = key;
+        // if (target) {
+        //   target.editable = true;
+        // }
+        for (let i = 0; i < data.length; i++) {
+          data[i].target = false;
+        }
         console.log(oriRes);
         let res = oriRes.data
         console.log(res);
@@ -287,14 +262,30 @@ export default {
       this.loadUser()
     },
     edit(key) {
+      console.log(key);
+      console.log(data)
+      console.log(...this.data)
       const newData = [...this.data];
+      console.log(newData)
+      for (let i = 0; i < newData.length; i++) {
+        console.log(newData[i])
+      }
       const target = newData.filter((item) => key === item.key)[0];
+      console.log(target)
       this.editingKey = key;
       if (target) {
         target.editable = true;
         this.data = newData;
+        console.log(this.data);
       }
     },
+    // edit(key) {
+    //   const target = data.filter((item) => key === item.key)[0];
+    //     this.editingKey = key;
+    //     if (target) {
+    //       target.editable = true;
+    //     }
+    // },
     save(key) {
       const newData = [...this.data];
       const newCacheData = [...this.cacheData];
@@ -345,6 +336,9 @@ export default {
     },
     cancel(key) {
       const newData = [...this.data];
+      for (let i = 0; i < newData.length; i++) {
+        newData[i].editable = false;
+      }
       const target = newData.filter((item) => key === item.key)[0];
       this.editingKey = "";
       if (target) {
@@ -352,9 +346,10 @@ export default {
           target,
           this.cacheData.filter((item) => key === item.key)[0]
         );
-        delete target.editable;
+        console.log(target)
         this.data = newData;
       }
+      console.log(data)
     },
     selectChange(value) {
       console.log(value);
@@ -386,6 +381,7 @@ export default {
             ins: res.data[i].institution,
             type: this.type,
             email: res.data[i].email,
+            editable: false
           });
         }
         this.totalCnt = res.data.total_count;
