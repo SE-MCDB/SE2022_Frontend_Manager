@@ -117,10 +117,15 @@ export default {
       data,
       columns,
       editingKey: "",
+      changeable: true,
       selectedType: "全部",
       pagination: {
         current: 1,
         onChange: (page) => {
+          if (!this.changeable) {
+            alert("请完成修改后再切换页面！")
+            return
+          }
           console.log(page);
           console.log(this.selectedType);
           getSelectUser(this.selectedType === "全部" ? 6 : this.selectedType, page).then((oriRes) => {
@@ -175,6 +180,12 @@ export default {
   //     })
   //   }
   // },
+  watch: {
+    editingKey: function (newValue) {
+      this.changeable = newValue === "";
+    }
+  },
+
   mounted() {
     this.init();
   },
