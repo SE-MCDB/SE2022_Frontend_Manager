@@ -355,7 +355,7 @@ export default {
       // console.log(target.editable
     },
     cancel(key) {
-<<<<<<< HEAD
+// <<<<<<< HEAD
       let that = this
       let promise = new Promise(function (resolve, reject) {
             const newData = [...that.data];
@@ -375,23 +375,23 @@ export default {
       promise.then(
           that.reload()
       )
-=======
-      const newData = [...this.data];
-      for (let i = 0; i < newData.length; i++) {
-        newData[i].editable = false;
-      }
-      const target = newData.filter((item) => key === item.key)[0];
-      this.editingKey = "";
-      if (target) {
-        Object.assign(
-          target,
-          this.cacheData.filter((item) => key === item.key)[0]
-        );
-        console.log(target)
-        this.data = newData;
-      }
-      console.log(data)
->>>>>>> 27da2901a4f9cddd7dcaaa8106ab332cd6de4a7b
+// =======
+//       const newData = [...this.data];
+//       for (let i = 0; i < newData.length; i++) {
+//         newData[i].editable = false;
+//       }
+//       const target = newData.filter((item) => key === item.key)[0];
+//       this.editingKey = "";
+//       if (target) {
+//         Object.assign(
+//           target,
+//           this.cacheData.filter((item) => key === item.key)[0]
+//         );
+//         console.log(target)
+//         this.data = newData;
+//       }
+//       console.log(data)
+// >>>>>>> 27da2901a4f9cddd7dcaaa8106ab332cd6de4a7b
     },
     selectChange(value) {
       if (!this.changeable) {
