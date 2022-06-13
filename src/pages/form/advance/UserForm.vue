@@ -155,12 +155,17 @@ export default {
                 ins: res.data[i].institution,
                 type: this.type,
                 email: res.data[i].email,
+                editable: false
               });
             }
+
             this.totalCnt = res.data.total_count;
             this.loading = false;
-            this.itemKey = Math.random();
+            // this.itemKey = Math.random();
             this.pagination.current = page;
+            console.log(data);
+            console.log(this.pagination.current)
+            console.log("push over!")
           }).catch((error) => {
             console.log(error);
           });
@@ -198,6 +203,14 @@ export default {
       data.length=0;
       this.pagination.current = 1;
       getSelectUser(6, 1).then((oriRes) => {
+        // const target = data.filter((item) => key === item.key)[0];
+        // this.editingKey = key;
+        // if (target) {
+        //   target.editable = true;
+        // }
+        for (let i = 0; i < data.length; i++) {
+          data[i].target = false;
+        }
         console.log(oriRes);
         let res = oriRes.data
         console.log(res);
@@ -266,14 +279,30 @@ export default {
       this.loadUser()
     },
     edit(key) {
+      console.log(key);
+      console.log(data)
+      console.log(...this.data)
       const newData = [...this.data];
+      console.log(newData)
+      for (let i = 0; i < newData.length; i++) {
+        console.log(newData[i])
+      }
       const target = newData.filter((item) => key === item.key)[0];
+      console.log(target)
       this.editingKey = key;
       if (target) {
         target.editable = true;
         this.data = newData;
+        console.log(this.data);
       }
     },
+    // edit(key) {
+    //   const target = data.filter((item) => key === item.key)[0];
+    //     this.editingKey = key;
+    //     if (target) {
+    //       target.editable = true;
+    //     }
+    // },
     save(key) {
       const newData = [...this.data];
       const newCacheData = [...this.cacheData];
@@ -326,6 +355,7 @@ export default {
       // console.log(target.editable
     },
     cancel(key) {
+<<<<<<< HEAD
       let that = this
       let promise = new Promise(function (resolve, reject) {
             const newData = [...that.data];
@@ -345,6 +375,23 @@ export default {
       promise.then(
           that.reload()
       )
+=======
+      const newData = [...this.data];
+      for (let i = 0; i < newData.length; i++) {
+        newData[i].editable = false;
+      }
+      const target = newData.filter((item) => key === item.key)[0];
+      this.editingKey = "";
+      if (target) {
+        Object.assign(
+          target,
+          this.cacheData.filter((item) => key === item.key)[0]
+        );
+        console.log(target)
+        this.data = newData;
+      }
+      console.log(data)
+>>>>>>> 27da2901a4f9cddd7dcaaa8106ab332cd6de4a7b
     },
     selectChange(value) {
       if (!this.changeable) {
@@ -381,6 +428,7 @@ export default {
             ins: res.data[i].institution,
             type: this.type,
             email: res.data[i].email,
+            editable: false
           });
         }
         this.totalCnt = res.data.total_count;
