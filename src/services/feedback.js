@@ -7,6 +7,6 @@ export const getFeedbackAll = () => {
 }
 
 export const replyFeedback = (params, method) => {
-    const url = `${BASE_URL_IP}/feedback/reply`;
+    const url = `${BASE_URL_IP}/api/feedback/reply`;
     return request(url, method, params);
 }

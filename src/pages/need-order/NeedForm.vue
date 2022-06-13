@@ -176,7 +176,7 @@ export default {
       return "test";
     },
     onDeleteNeed(id) {
-      deleteOrder(id, 'get').then((res) => {
+      deleteNeed(id, 'delete').then((res) => {
         console.log(res)
       }).catch((error) => {
         console.log(error);

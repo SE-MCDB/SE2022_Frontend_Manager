@@ -1,25 +1,26 @@
 <template>
   <a-card :bordered="false">
-<!--    <h2>选择用户类型</h2>-->
-<!--    <a-space>-->
-<!--      <a-select-->
-<!--          ref="select"-->
-<!--          v-model:value="selectedType"-->
-<!--          style="width: 120px"-->
-<!--          @change="selectChange"-->
-<!--      >-->
-<!--        <a-select-option value="0">普通用户</a-select-option>-->
-<!--        <a-select-option value="1">专家认证中</a-select-option>-->
-<!--        <a-select-option value="2">企业认证中</a-select-option>-->
-<!--        <a-select-option value="3">封禁中</a-select-option>-->
-<!--        <a-select-option value="4">认证专家</a-select-option>-->
-<!--        <a-select-option value="5">认证企业</a-select-option>-->
-<!--        <a-select-option value="6">全部</a-select-option>-->
-<!--      </a-select>-->
-<!--    </a-space>-->
-<!--    <br/>-->
-<!--    <br/>-->
-    <a-table :data-source="data" :columns="columns">
+    <h2>选择用户类型</h2>
+    <a-space>
+      <a-select
+          ref="select"
+          v-model:value="selectedType"
+          style="width: 120px"
+          @change="selectChange"
+          :disabled="!changeable"
+      >
+        <a-select-option value="0">普通用户</a-select-option>
+        <a-select-option value="1">专家认证中</a-select-option>
+        <a-select-option value="2">企业认证中</a-select-option>
+        <a-select-option value="3">封禁中</a-select-option>
+        <a-select-option value="4">认证专家</a-select-option>
+        <a-select-option value="5">认证企业</a-select-option>
+        <a-select-option value="6">全部</a-select-option>
+      </a-select>
+    </a-space>
+    <br/>
+    <br/>
+    <a-table :data-source="data" :columns="columns" :pagination="pagination" :key="itemKey">
       <template
         v-for="col in ['name', 'ins', 'email', 'type']"
         :slot="col"
@@ -108,6 +109,7 @@ const data = [];
 
 export default {
   name: "UserForm",
+  inject: ['reload'],
   i18n: require("./i18n-user"),
   data() {
     this.cacheData = data.map((item) => ({ ...item }));
@@ -118,55 +120,58 @@ export default {
       columns,
       editingKey: "",
       changeable: true,
-      // selectedType: "全部",
-      // pagination: {
-      //   current: 1,
-      //   onChange: (page) => {
-      //     if (!this.changeable) {
-      //       alert("请完成修改后再切换页面！")
-      //       return
-      //     }
-      //     console.log(page);
-      //     console.log(this.selectedType);
-      //     getSelectUser(this.selectedType === "全部" ? 6 : this.selectedType, page).then((oriRes) => {
-      //       console.log(oriRes);
-      //       let res = oriRes.data;
-      //       data.length = 0;
-      //       for (let i = 0; i < res.data.length; i++) {
-      //         if (res.data[i].type==0) {
-      //           this.type="普通用户"
-      //         } else if (res.data[i].type==1){
-      //           this.type="专家认证中"
-      //         } else if (res.data[i].type==2){
-      //           this.type="企业认证中"
-      //         }else if (res.data[i].type==3){
-      //           this.type="封禁中"
-      //         }else if (res.data[i].type==4){
-      //           this.type="认证专家"
-      //         }else if (res.data[i].type==5){
-      //           this.type="认证企业"
-      //         }
-      //         data.push({
-      //           key: res.data[i].id,
-      //           name: res.data[i].username,
-      //           ins: res.data[i].institution,
-      //           type: this.type,
-      //           email: res.data[i].email,
-      //           editable: false
-      //         });
-      //       }
-      //
-      //       this.totalCnt = res.data.total_count;
-      //       this.loading = false;
-      //       // this.itemKey = Math.random();
-      //       this.pagination.current = page;
-      //       this.cacheData = data.map((item) => ({ ...item }));
-      //     }).catch((error) => {
-      //       console.log(error);
-      //     });
-      //   },
-      //   total: 10
-      // },
+      selectedType: "全部",
+      pagination: {
+        current: 1,
+        onChange: (page) => {
+          if (!this.changeable) {
+            alert("请完成修改后再切换页面！")
+            return
+          }
+          this.$forceUpdate()
+          console.log(page);
+          console.log(this.selectedType);
+          getSelectUser(this.selectedType === "全部" ? 6 : this.selectedType, page).then((oriRes) => {
+            console.log(oriRes);
+            let res = oriRes.data;
+            data.length = 0;
+            for (let i = 0; i < res.data.length; i++) {
+              if (res.data[i].type==0) {
+                this.type="普通用户"
+              } else if (res.data[i].type==1){
+                this.type="专家认证中"
+              } else if (res.data[i].type==2){
+                this.type="企业认证中"
+              }else if (res.data[i].type==3){
+                this.type="封禁中"
+              }else if (res.data[i].type==4){
+                this.type="认证专家"
+              }else if (res.data[i].type==5){
+                this.type="认证企业"
+              }
+              data.push({
+                key: res.data[i].id,
+                name: res.data[i].username,
+                ins: res.data[i].institution,
+                type: this.type,
+                email: res.data[i].email,
+                editable: false
+              });
+            }
+
+            this.totalCnt = res.data.total_count;
+            this.loading = false;
+            // this.itemKey = Math.random();
+            this.pagination.current = page;
+            console.log(data);
+            console.log(this.pagination.current)
+            console.log("push over!")
+          }).catch((error) => {
+            console.log(error);
+          });
+        },
+        total: 10
+      },
       itemKey: "",
     };
   },
@@ -196,97 +201,59 @@ export default {
     loadUser: function() {
       this.loading = true;
       data.length=0;
-      // this.pagination.current = 1;
-      // getSelectUser(6, 1).then((oriRes) => {
-      //   // const target = data.filter((item) => key === item.key)[0];
-      //   // this.editingKey = key;
-      //   // if (target) {
-      //   //   target.editable = true;
-      //   // }
-      //   for (let i = 0; i < data.length; i++) {
-      //     data[i].target = false;
-      //   }
-      //   console.log(oriRes);
-      //   let res = oriRes.data
-      //   console.log(res);
-      //   data.length = 0;
-      //   for (let i = 0; i < res.data.length; i++) {
-      //     if (res.data[i].type==0) {
-      //       this.type="普通用户"
-      //     } else if (res.data[i].type==1){
-      //       this.type="专家认证中"
-      //     } else if (res.data[i].type==2){
-      //       this.type="企业认证中"
-      //     }else if (res.data[i].type==3){
-      //       this.type="封禁中"
-      //     }else if (res.data[i].type==4){
-      //       this.type="认证专家"
-      //     }else if (res.data[i].type==5){
-      //       this.type="认证企业"
-      //     }
-      //     data.push({
-      //       key: res.data[i].id,
-      //       name: res.data[i].username,
-      //       ins: res.data[i].institution,
-      //       type: this.type,
-      //       email: res.data[i].email,
-      //     });
-      //   }
-      //   this.totalCnt = res.data.total_count;
-      //   this.loading = false;
-      //   this.pagination.total = res.page_num;
-      // }).catch((error) => {
-      //   console.log(error);
-      // });
-      getSelectUser(4,1)
-          .then((res1) => {
-            console.log(res1);
-            let res = res1.data
-            for (let i = 0; i < res.data.length; i++) {
-                  if (res.data[i].type==0) {
-                    this.type="普通用户"
-                  } else if (res.data[i].type==1){
-                    this.type="专家认证中"
-                  } else if (res.data[i].type==2){
-                    this.type="企业认证中"
-                  }else if (res.data[i].type==3){
-                    this.type="封禁中"
-                  }else if (res.data[i].type==4){
-                    this.type="认证专家"
-                  }else if (res.data[i].type==5){
-                    this.type="认证企业"
-                  }
-              data.push({
-                key: res.data[i].id,
-                name: res.data[i].username,
-                ins: res.data[i].institution,
-                type: this.type,
-                email: res.data[i].email,
-              });
-            }
-            console.log(data)
-            this.loading = false;
-          })
-          .catch((error) => {
-            console.log(error);
+      this.pagination.current = 1;
+      getSelectUser(6, 1).then((oriRes) => {
+        // const target = data.filter((item) => key === item.key)[0];
+        // this.editingKey = key;
+        // if (target) {
+        //   target.editable = true;
+        // }
+        for (let i = 0; i < data.length; i++) {
+          data[i].target = false;
+        }
+        console.log(oriRes);
+        let res = oriRes.data
+        console.log(res);
+        data.length = 0;
+        for (let i = 0; i < res.data.length; i++) {
+          if (res.data[i].type==0) {
+            this.type="普通用户"
+          } else if (res.data[i].type==1){
+            this.type="专家认证中"
+          } else if (res.data[i].type==2){
+            this.type="企业认证中"
+          }else if (res.data[i].type==3){
+            this.type="封禁中"
+          }else if (res.data[i].type==4){
+            this.type="认证专家"
+          }else if (res.data[i].type==5){
+            this.type="认证企业"
+          }
+          data.push({
+            key: res.data[i].id,
+            name: res.data[i].username,
+            ins: res.data[i].institution,
+            type: this.type,
+            email: res.data[i].email,
           });
+        }
+        this.totalCnt = res.data.total_count;
+        this.loading = false;
+        this.pagination.total = res.page_num;
+      }).catch((error) => {
+        console.log(error);
+      });
     },
     onDelete(key) {
       const newData = [...this.data];
       this.data = newData.filter((item) => item.key !== key);
       const target = newData.filter((item) => key === item.key)[0];
-      if(target.type=="普通用户"){
+      if(target.type=="个人"){
         this.type1=0
-      }else if(target.type=="专家认证中"){
+      }else if(target.type=="学校"){
         this.type1=1
-      }else if(target.type=="企业认证中"){
+      }else{
         this.type1=2
-      }else if(target.type=="封禁中"){
-        this.type1=3
-      }else if(target.type=="认证专家"){
-        this.type1=4
-      }else if(target.type=="认证企业"){
-        this.type1=5
       }
       const params = {
         id:target.key,
@@ -295,11 +262,14 @@ export default {
         institution:target.ins,
         mail: target.email,
       };
+      let that = this
       UserDel(params)
         .then((res) => {
           this.$message.info("成功删除");
           // this.loadUser();
           console.log(res)
+        }).then((res) => {
+          that.reload()
         })
         .catch((error) => {
           console.log(error);
@@ -309,14 +279,30 @@ export default {
       this.loadUser()
     },
     edit(key) {
+      console.log(key);
+      console.log(data)
+      console.log(...this.data)
       const newData = [...this.data];
+      console.log(newData)
+      for (let i = 0; i < newData.length; i++) {
+        console.log(newData[i])
+      }
       const target = newData.filter((item) => key === item.key)[0];
+      console.log(target)
       this.editingKey = key;
       if (target) {
         target.editable = true;
         this.data = newData;
+        console.log(this.data);
       }
     },
+    // edit(key) {
+    //   const target = data.filter((item) => key === item.key)[0];
+    //     this.editingKey = key;
+    //     if (target) {
+    //       target.editable = true;
+    //     }
+    // },
     save(key) {
       const newData = [...this.data];
       const newCacheData = [...this.cacheData];
@@ -329,49 +315,93 @@ export default {
         this.cacheData = newCacheData;
       }
       this.editingKey = "";
-
+      if(target.type=="个人"){
+        this.type1=0
+      }else if(target.type=="学校"){
+        this.type1=1
+      }else{
+        this.type1=2
+      }
       const params = {
         id:target.key,
         name: target.name,
+        // usertype: this.type1,
+
         institution:target.ins,
         mail: target.email,
       };
+      let that = this
       UserModify(params)
-          .then((res) => {
-            this.$message.info("成功修改");
-            console.log(res)
-          })
-          .catch((error) => {
-            this.$message.error("无法修改")
-            console.log(error);
-          });
+        .then((res) => {
+          this.$message.info("成功修改");
+          console.log(res)
+        }).then((res) => {
+          that.reload()
+        })
+        .catch((error) => {
+          this.$message.error("无法修改")
+          console.log(error);
+        });
       if (target) {
         Object.assign(
-            target,
-            this.cacheData.filter((item) => key === item.key)[0]
+          target,
+          this.cacheData.filter((item) => key === item.key)[0]
         );
         delete target.editable;
         this.data = newData;
       }
+      this.reload()
       // this.loadUser()
-      // console.log(target.editable)
-
+      // console.log(target.editable
     },
     cancel(key) {
-      const newData = [...this.data];
-      const target = newData.filter((item) => key === item.key)[0];
-      this.editingKey = "";
-      if (target) {
-        Object.assign(
-            target,
-            this.cacheData.filter((item) => key === item.key)[0]
-        );
-        delete target.editable;
-        this.data = newData;
-      }
+// <<<<<<< HEAD
+      let that = this
+      let promise = new Promise(function (resolve, reject) {
+            const newData = [...that.data];
+            const target = newData.filter((item) => key === item.key)[0];
+            that.editingKey = "";
+            if (target) {
+              Object.assign(
+                  target,
+                  that.cacheData.filter((item) => key === item.key)[0]
+              );
+              delete target.editable;
+              that.data = newData;
+            }
+            resolve()
+          }
+      )
+      promise.then(
+          that.reload()
+      )
+// =======
+//       const newData = [...this.data];
+//       for (let i = 0; i < newData.length; i++) {
+//         newData[i].editable = false;
+//       }
+//       const target = newData.filter((item) => key === item.key)[0];
+//       this.editingKey = "";
+//       if (target) {
+//         Object.assign(
+//           target,
+//           this.cacheData.filter((item) => key === item.key)[0]
+//         );
+//         console.log(target)
+//         this.data = newData;
+//       }
+//       console.log(data)
+// >>>>>>> 27da2901a4f9cddd7dcaaa8106ab332cd6de4a7b
     },
     selectChange(value) {
+      if (!this.changeable) {
+
+        alert("请先完成编辑！")
+        return
+      }
       console.log(value);
+      console.log(this.selectedType);
+      this.pagination.current = 1;
       getSelectUser(this.selectedType, 1).then((oriRes) => {
         console.log(oriRes);
         let res = oriRes.data
