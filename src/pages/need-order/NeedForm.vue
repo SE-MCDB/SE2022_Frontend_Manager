@@ -110,6 +110,7 @@ const OrderData = [];
 
 export default {
   name: "NeedForm",
+  inject: ['reload'],
   components: {
     ChildForm
   },
@@ -178,10 +179,10 @@ export default {
     onDeleteNeed(id) {
       deleteNeed(id, 'delete').then((res) => {
         console.log(res)
-        this.reload();
       }).catch((error) => {
         console.log(error);
       })
+      this.reload();
     },
 
   },

@@ -23,6 +23,7 @@ import {deleteNeed, deleteOrder} from "../../services/needOrder";
 
 export default {
   name: "ChildForm",
+  inject: ['reload'],
   props:{
     OrderColumns: {
       type: Array,
@@ -41,10 +42,10 @@ export default {
     onDeleteOrder(id) {
       deleteOrder(id, 'delete').then((res) => {
         console.log(res)
-        this.reload();
       }).catch((error) => {
         console.log(error);
       })
+      this.reload();
     },
   }
 }

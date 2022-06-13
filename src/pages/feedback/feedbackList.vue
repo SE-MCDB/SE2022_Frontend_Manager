@@ -6,18 +6,19 @@
           <span>
             <a @click="checkFeedback(record)" v-if="record.flag==0">反馈</a>
             <a @click="checkFeedback(record)" v-else>再次反馈</a>
-            <a-modal v-model="showDetail" title="回复反馈" @ok="handleOk(record)" width="750px">
-<!--              <feedback-card v-if="showDetail" v-bind="post"></feedback-card>-->
+            <a-modal v-model="showDetail" title="回复反馈" @ok="handleOk()" width="750px">
               <a-card :bordered="false" dis-hover>
-                <a-row>姓名：{{record.name}}</a-row>
+                <a-row>姓名：{{selectData.name}}</a-row>
                 <br/>
-                <a-row>性别：{{record.sex}}</a-row>
+                <a-row>性别：{{selectData.sex}}</a-row>
                 <br/>
-                <a-row>邮箱：{{record.email}}</a-row>
+                <a-row>邮箱：{{selectData.email}}</a-row>
                 <br/>
-                <a-row>问题类型：{{record.qtype}}</a-row>
+                <a-row>问题类型：{{selectData.qtype}}</a-row>
                 <br/>
-                <a-row>发布时间：{{record.datatime}}</a-row>
+                <a-row>发布时间：{{selectData.datatime}}</a-row>
+                <br/>
+                <a-row>问题：{{selectData.description}}</a-row>
                 <br/>
                 <a-row>回答：</a-row>
                 <br/>
@@ -111,6 +112,7 @@ export default {
       columns,
       showDetail: false,
       reply: '',
+      selectData: {},
     }
   },
   mounted() {
@@ -128,8 +130,14 @@ export default {
         let d = res.data.data;
         console.log(d);
         for (let i = 0; i < d.length; i++) {
+          if(d[i].qtype) {
+            console.log(d[i].name + " OK!")
+            console.log(typeof (d[i].qtype))
+          } else {
+            console.log(d[i].name + " ERROR!")
+          }
           let str = d[i].qtype[0];
-          for (let j = 1; j < d[i].qtype.length; i++) {
+          for (let j = 1; j < d[i].qtype.length; j++) {
             str = str + ', ' + d[i].qtype[j];
           }
           let s = '';
@@ -138,6 +146,10 @@ export default {
           } else {
             s = '未回复'
           }
+          // console.log(d[i].name)
+          // console.log(str)
+          // console.log(d[i].qtype)
+          // console.log(typeof(d[i].qtype))
           data.push({
             feedback_id: d[i].feedback_id,
             user_id: d[i].user_id,
@@ -156,10 +168,11 @@ export default {
         console.log(error);
       })
     },
-    handleOk(record) {
+    handleOk() {
+      console.log(this.selectData)
       this.showDetail = false;
       let params = {
-        feedback_id: record.feedback_id,
+        feedback_id: this.selectData.feedback_id,
         message: this.reply
       }
       console.log(params)
@@ -170,12 +183,11 @@ export default {
       })
     },
     checkFeedback(record) {
+      console.log(record)
+      console.log(record.name)
       this.showDetail = true;
-      this.post = record;
+      this.selectData = record;
     },
-    modalOK() {
-
-    }
   }
 }
 </script>
