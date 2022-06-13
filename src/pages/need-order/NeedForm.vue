@@ -178,6 +178,7 @@ export default {
     onDeleteNeed(id) {
       deleteNeed(id, 'delete').then((res) => {
         console.log(res)
+        this.reload();
       }).catch((error) => {
         console.log(error);
       })

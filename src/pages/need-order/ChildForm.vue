@@ -41,6 +41,7 @@ export default {
     onDeleteOrder(id) {
       deleteOrder(id, 'delete').then((res) => {
         console.log(res)
+        this.reload();
       }).catch((error) => {
         console.log(error);
       })
