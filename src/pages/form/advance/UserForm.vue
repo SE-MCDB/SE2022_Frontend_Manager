@@ -31,7 +31,7 @@
             v-if="record.editable"
             style="margin: -5px 0"
             :value="text"
-            @change="(e) => handleChange(e.target.value, record.key, col)"
+            @change="(e) => handleChange(e.target.value, record, col)"
           />
           <template v-else>
             {{ text }}
@@ -119,6 +119,7 @@ export default {
       data,
       columns,
       editingKey: "",
+      editData: {},
       changeable: true,
       selectedType: "全部",
       pagination: {
@@ -158,14 +159,11 @@ export default {
                 editable: false
               });
             }
-
+            this.cacheData = data.map((item) => ({ ...item }));
             this.totalCnt = res.data.total_count;
             this.loading = false;
             // this.itemKey = Math.random();
             this.pagination.current = page;
-            console.log(data);
-            console.log(this.pagination.current)
-            console.log("push over!")
           }).catch((error) => {
             console.log(error);
           });
@@ -237,9 +235,12 @@ export default {
             email: res.data[i].email,
           });
         }
+        this.cacheData = data.map((item) => ({ ...item }));
         this.totalCnt = res.data.total_count;
         this.loading = false;
         this.pagination.total = res.page_num;
+        console.log(data)
+        console.log(this.cacheData)
       }).catch((error) => {
         console.log(error);
       });
@@ -275,25 +276,32 @@ export default {
           console.log(error);
         });
     },
-    handleChange() {
+    handleChange(value, record, col) {
+      if (!this.editData.key) {
+        this.editData = record
+      }
+      if (col === "name") {
+        this.editData.name = value;
+      } else if (col === 'ins') {
+        this.editData.ins = value;
+      } else if (col === 'email') {
+        this.editData.email = value;
+      } else if (col === 'type') {
+        alert("暂不允许修改用户类型！！")
+        this.reload()
+      }
+      console.log(this.editData)
+
       this.loadUser()
     },
     edit(key) {
-      console.log(key);
-      console.log(data)
-      console.log(...this.data)
       const newData = [...this.data];
-      console.log(newData)
-      for (let i = 0; i < newData.length; i++) {
-        console.log(newData[i])
-      }
       const target = newData.filter((item) => key === item.key)[0];
       console.log(target)
       this.editingKey = key;
       if (target) {
         target.editable = true;
         this.data = newData;
-        console.log(this.data);
       }
     },
     // edit(key) {
@@ -308,6 +316,8 @@ export default {
       const newCacheData = [...this.cacheData];
       const target = newData.filter((item) => key === item.key)[0];
       const targetCache = newCacheData.filter((item) => key === item.key)[0];
+      console.log(target);
+      console.log(targetCache);
       if (target && targetCache) {
         delete target.editable;
         this.data = newData;
@@ -323,13 +333,14 @@ export default {
         this.type1=2
       }
       const params = {
-        id:target.key,
-        name: target.name,
+        id: this.editData.key,
+        name: this.editData.name,
         // usertype: this.type1,
 
-        institution:target.ins,
-        mail: target.email,
+        institution:this.editData.ins,
+        mail: this.editData.email,
       };
+
       let that = this
       UserModify(params)
         .then((res) => {
