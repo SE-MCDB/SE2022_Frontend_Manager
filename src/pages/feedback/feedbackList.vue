@@ -4,8 +4,8 @@
       <template slot="operation" slot-scope="text, record">
         <div>
           <span>
-            <a @click="checkFeedback(record)" v-if="record.flag==0">反馈</a>
-            <a @click="checkFeedback(record)" v-else>再次反馈</a>
+            <a @click="checkFeedback(record)" v-if="record.flag==0">回复</a>
+            <a  v-else>已成功回复</a>
             <a-modal v-model="showDetail" title="回复反馈" @ok="handleOk()" width="750px">
               <a-card :bordered="false" dis-hover>
                 <a-row>姓名：{{selectData.name}}</a-row>
@@ -105,6 +105,7 @@ const data = [];
 
 export default {
   name: "feedbackList",
+  inject: ['reload'],
   components: {},
   data() {
     return {
@@ -181,6 +182,7 @@ export default {
       }).catch((error) => {
         console.log(error)
       })
+      this.reload();
     },
     checkFeedback(record) {
       console.log(record)
