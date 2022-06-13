@@ -7,6 +7,7 @@
           v-model:value="selectedType"
           style="width: 120px"
           @change="selectChange"
+          :disabled="!changeable"
       >
         <a-select-option value="0">普通用户</a-select-option>
         <a-select-option value="1">专家认证中</a-select-option>
@@ -108,6 +109,7 @@ const data = [];
 
 export default {
   name: "UserForm",
+  inject: ['reload'],
   i18n: require("./i18n-user"),
   data() {
     this.cacheData = data.map((item) => ({ ...item }));
@@ -126,6 +128,7 @@ export default {
             alert("请完成修改后再切换页面！")
             return
           }
+          this.$forceUpdate()
           console.log(page);
           console.log(this.selectedType);
           getSelectUser(this.selectedType === "全部" ? 6 : this.selectedType, page).then((oriRes) => {
@@ -193,44 +196,6 @@ export default {
     loadUser: function() {
       this.loading = true;
       data.length=0;
-      // getUserAll()
-      //   .then((res) => {
-      //     console.log(res);
-      //     for (let i = 0; i < res.data.length; i++) {
-      //       // if(res.data[i].usertype==0){
-      //       //   this.type="个人"
-      //       // }else if(res.data[i].usertype==1){
-      //       //   this.type="学校"
-      //       // }else{
-      //       //   this.type="公司"
-      //       // }
-      //       if (res.data[i].type==0) {
-      //         this.type="普通用户"
-      //       } else if (res.data[i].type==1){
-      //         this.type="专家认证中"
-      //       } else if (res.data[i].type==2){
-      //         this.type="企业认证中"
-      //       }else if (res.data[i].type==3){
-      //         this.type="封禁中"
-      //       }else if (res.data[i].type==4){
-      //         this.type="认证专家"
-      //       }else if (res.data[i].type==5){
-      //         this.type="认证企业"
-      //       }
-      //       data.push({
-      //         key: res.data[i].id,
-      //         name: res.data[i].username,
-      //         ins: res.data[i].institution,
-      //         type: this.type,
-      //         email: res.data[i].email,
-      //       });
-      //     }
-      //     this.totalCnt = res.data.total_count;
-      //     this.loading = false;
-      //   })
-      //   .catch((error) => {
-      //     console.log(error);
-      //   });
       this.pagination.current = 1;
       getSelectUser(6, 1).then((oriRes) => {
         console.log(oriRes);
@@ -284,11 +249,14 @@ export default {
         institution:target.ins,
         mail: target.email,
       };
+      let that = this
       UserDel(params)
         .then((res) => {
           this.$message.info("成功删除");
           // this.loadUser();
           console.log(res)
+        }).then((res) => {
+          that.reload()
         })
         .catch((error) => {
           console.log(error);
@@ -333,10 +301,13 @@ export default {
         institution:target.ins,
         mail: target.email,
       };
+      let that = this
       UserModify(params)
         .then((res) => {
           this.$message.info("成功修改");
           console.log(res)
+        }).then((res) => {
+          that.reload()
         })
         .catch((error) => {
           this.$message.error("无法修改")
@@ -350,24 +321,37 @@ export default {
         delete target.editable;
         this.data = newData;
       }
+      this.reload()
       // this.loadUser()
-      // console.log(target.editable)
-
+      // console.log(target.editable
     },
     cancel(key) {
-      const newData = [...this.data];
-      const target = newData.filter((item) => key === item.key)[0];
-      this.editingKey = "";
-      if (target) {
-        Object.assign(
-          target,
-          this.cacheData.filter((item) => key === item.key)[0]
-        );
-        delete target.editable;
-        this.data = newData;
-      }
+      let that = this
+      let promise = new Promise(function (resolve, reject) {
+            const newData = [...that.data];
+            const target = newData.filter((item) => key === item.key)[0];
+            that.editingKey = "";
+            if (target) {
+              Object.assign(
+                  target,
+                  that.cacheData.filter((item) => key === item.key)[0]
+              );
+              delete target.editable;
+              that.data = newData;
+            }
+            resolve()
+          }
+      )
+      promise.then(
+          that.reload()
+      )
     },
     selectChange(value) {
+      if (!this.changeable) {
+
+        alert("请先完成编辑！")
+        return
+      }
       console.log(value);
       console.log(this.selectedType);
       this.pagination.current = 1;
