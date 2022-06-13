@@ -8,7 +8,7 @@
         <a-popconfirm
             v-if="OrderData.length"
             title="Sure to delete?"
-            @confirm="() => onDeleteOrder(record.need_id)"
+            @confirm="() => onDeleteOrder(record.order_id)"
         >
           <a href="javascript:0;">Delete</a>
         </a-popconfirm>
@@ -19,7 +19,7 @@
 </template>
 
 <script>
-import {deleteNeed} from "../../services/needOrder";
+import {deleteNeed, deleteOrder} from "../../services/needOrder";
 
 export default {
   name: "ChildForm",
@@ -39,7 +39,7 @@ export default {
   },
   methods: {
     onDeleteOrder(id) {
-      deleteNeed(id, 'get').then((res) => {
+      deleteOrder(id, 'delete').then((res) => {
         console.log(res)
       }).catch((error) => {
         console.log(error);
