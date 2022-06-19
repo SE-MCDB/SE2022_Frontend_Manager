@@ -77,7 +77,7 @@
               </a-col>
             </a-row>
 
-            <!-- <a-row>
+            <a-row>
               <a-col :span="24">
                 <a-popconfirm
                   title="确定要删除论文解读吗？"
@@ -88,7 +88,7 @@
                   <a-button type="danger" style="width: 80px"> 删除</a-button>
                 </a-popconfirm>
               </a-col>
-            </a-row> -->
+            </a-row>
           </a-space>
           <a-Modal v-model="showDetail" title="" @ok="handleOk" width="750px">
             <PaperCard v-if="showDetail" v-bind="post" />
